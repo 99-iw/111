@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🍞 面包品鉴 · 风味之旅</title>
+    <!-- Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Google Font 优雅字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        /* ===== 全局重置 & 变量 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #fdf8f0;
+            --warm-bg: #faf0e6;
+            --brown-dark: #4a2e1b;
+            --brown-medium: #7a4e2d;
+            --brown-light: #b88a6b;
+            --gold: #d4a24c;
+            --gold-light: #f0d5a8;
+            --rose: #e8c4b8;
+            --shadow: 0 12px 40px rgba(74, 46, 27, 0.12);
+            --radius: 24px;
+            --radius-sm: 12px;
+            --transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--warm-bg);
+            color: var(--brown-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+        }
+
+        /* ===== 容器 ===== */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* ===== 头部 ===== */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0 2rem 0;
+            border-bottom: 2px solid rgba(74, 46, 27, 0.08);
+            margin-bottom: 2.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--brown-dark);
+            letter-spacing: -0.5px;
+        }
+
+        .logo i {
+            color: var(--gold);
+            font-size: 2rem;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--brown-dark), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .header-actions .date-badge {
+            background: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            color: var(--brown-medium);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-actions .date-badge i {
+            color: var(--gold);
+        }
+
+        /* ===== 主标题区 ===== */
+        .hero {
+            text-align: center;
+            padding: 1rem 0 2.5rem 0;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--brown-dark);
+            line-height: 1.2;
+        }
+
+        .hero h1 i {
+            color: var(--gold);
+            font-size: 2.8rem;
+            margin: 0 0.2rem;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--brown-medium);
+            max-width: 560px;
+            margin: 0.75rem auto 0;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== 面包网格 ===== */
+        .bread-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2.5rem 0 3.5rem 0;
+        }
+
+        /* ===== 面包卡片 ===== */
+        .bread-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(2px);
+        }
+
+        .bread-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(74, 46, 27, 0.18);
+        }
+
+        .bread-card .card-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            padding: 1rem;
+        }
+
+        .bread-card .card-img .badge {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(6px);
+            padding: 0.35rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--brown-dark);
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .bread-card .card-body {
+            padding: 1.5rem 1.5rem 1.25rem;
+        }
+
+        .bread-card .card-body h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--brown-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .bread-card .card-body .sub {
+            font-size: 0.85rem;
+            color: var(--brown-light);
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+
+        .bread-card .card-body .desc {
+            margin: 0.75rem 0 1rem 0;
+            font-size: 0.92rem;
+            color: var(--brown-medium);
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .bread-card .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem 1.5rem;
+            border-top: 1px solid rgba(74, 46, 27, 0.06);
+        }
+
+        .bread-card .card-footer .stars {
+            color: var(--gold);
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+        }
+
+        .bread-card .card-footer .stars .empty {
+            color: #ddd;
+        }
+
+        .bread-card .card-footer .taste-tag {
+            background: var(--cream);
+            padding: 0.25rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--brown-medium);
+        }
+
+        /* 面包图片配色 (纯CSS渐变模拟) */
+        .img-sourdough {
+            background: linear-gradient(135deg, #d4a373, #b47c5e, #8b5e3c);
+        }
+        .img-baguette {
+            background: linear-gradient(135deg, #e8c9a0, #d4a87a, #b8855a);
+        }
+        .img-rye {
+            background: linear-gradient(135deg, #8b6f4c, #6d4f32, #4d3421);
+        }
+        .img-ciabatta {
+            background: linear-gradient(135deg, #f0dcc0, #dbb99a, #c49570);
+        }
+        .img-brioche {
+            background: linear-gradient(135deg, #f5e3c4, #e6c8a0, #d4a87a);
+        }
+        .img-focaccia {
+            background: linear-gradient(135deg, #e8d5b0, #dbb88a, #c4956a);
+        }
+        .img-pumpernickel {
+            background: linear-gradient(135deg, #5a3d2b, #3d281b, #281810);
+        }
+        .img-challah {
+            background: linear-gradient(135deg, #f0dbb8, #e0c49a, #ccaa7a);
+        }
+
+        /* ===== 品鉴面板 (当前选中) ===== */
+        .tasting-panel {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            margin: 2rem 0 3rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transition: var(--transition);
+            display: none;
+        }
+
+        .tasting-panel.active {
+            display: block;
+            animation: fadeSlideUp 0.45s ease forwards;
+        }
+
+        @keyframes fadeSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tasting-panel .panel-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+        }
+
+        .tasting-panel .panel-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--brown-dark);
+        }
+
+        .tasting-panel .panel-header h2 small {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--brown-light);
+            margin-left: 0.75rem;
+        }
+
+        .tasting-panel .panel-header .close-btn {
+            background: var(--cream);
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            color: var(--brown-medium);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tasting-panel .panel-header .close-btn:hover {
+            background: var(--brown-dark);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        /* 品鉴布局: 左图右内容 */
+        .tasting-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.8fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .tasting-layout .tasting-visual {
+            border-radius: var(--radius-sm);
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .tasting-layout .tasting-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* 评分组件 */
+        .rating-group {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem 2rem;
+        }
+
+        .rating-group label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--brown-medium);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .rating-group label i {
+            color: var(--gold);
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 0.3rem;
+            font-size: 1.8rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .star-rating .star {
+            transition: var(--transition);
+        }
+
+        .star-rating .star.active {
+            color: var(--gold);
+            transform: scale(1.1);
+        }
+
+        .star-rating .star:hover {
+            transform: scale(1.2);
+            color: var(--gold);
+        }
+
+        /* 风味标签 */
+        .flavor-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .flavor-tags .tag {
+            background: var(--cream);
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--brown-medium);
+            border: 1px solid rgba(74, 46, 27, 0.06);
+            transition: var(--transition);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .flavor-tags .tag:hover {
+            background: var(--gold-light);
+            border-color: var(--gold);
+        }
+
+        .flavor-tags .tag.selected {
+            background: var(--gold);
+            color: white;
+            border-color: var(--gold);
+            box-shadow: 0 4px 12px rgba(212, 162, 76, 0.3);
+        }
+
+        /* 品鉴笔记 */
+        .note-area {
+            margin-top: 0.25rem;
+        }
+
+        .note-area textarea {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(74, 46, 27, 0.1);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            background: var(--cream);
+            resize: vertical;
+            min-height: 80px;
+            transition: var(--transition);
+            color: var(--brown-dark);
+        }
+
+        .note-area textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(212, 162, 76, 0.15);
+            background: white;
+        }
+
+        .note-area textarea::placeholder {
+            color: var(--brown-light);
+            font-weight: 300;
+        }
+
+        .action-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.7rem 2rem;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--cream);
+            color: var(--brown-dark);
+        }
+
+        .btn-primary {
+            background: var(--brown-dark);
+            color: white;
+            box-shadow: 0 4px 16px rgba(74, 46, 27, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: var(--brown-medium);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(74, 46, 27, 0.25);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid rgba(74, 46, 27, 0.15);
+        }
+
+        .btn-outline:hover {
+            background: var(--cream);
+            border-color: var(--brown-medium);
+        }
+
+        .btn-success {
+            background: #2d6a4f;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1e4a36;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(45, 106, 79, 0.25);
+        }
+
+        /* ===== 品鉴历史/已记录 ===== */
+        .history-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid rgba(74, 46, 27, 0.06);
+        }
+
+        .history-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .history-section h3 i {
+            color: var(--gold);
+        }
+
+        .history-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        .history-item {
+            background: white;
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-sm);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border-left: 4px solid var(--gold);
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .history-item .h-name {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--brown-dark);
+        }
+
+        .history-item .h-meta {
+            font-size: 0.8rem;
+            color: var(--brown-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .history-item .h-meta .stars-sm {
+            color: var(--gold);
+            letter-spacing: 1px;
+        }
+
+        .history-item .h-meta .stars-sm .empty {
+            color: #ddd;
+        }
+
+        .history-item .h-note {
+            font-size: 0.85rem;
+            color: var(--brown-medium);
+            font-weight: 300;
+            margin-top: 0.15rem;
+            font-style: italic;
+        }
+
+        .empty-history {
+            color: var(--brown-light);
+            font-weight: 300;
+            padding: 1rem 0;
+        }
+
+        /* ===== 页脚 ===== */
+        .footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(74, 46, 27, 0.06);
+            text-align: center;
+            color: var(--brown-light);
+            font-size: 0.85rem;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+
+        .footer i {
+            color: var(--gold);
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 820px) {
+            .tasting-layout {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .tasting-layout .tasting-visual {
+                height: 160px;
+            }
+
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .tasting-panel {
+                padding: 1.5rem;
+            }
+
+            .tasting-panel .panel-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .rating-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .star-rating {
+                font-size: 1.5rem;
+            }
+
+            .bread-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .history-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== 工具类 ===== */
+        .text-gold {
+            color: var(--gold);
+        }
+        .mt-1 {
+            margin-top: 0.5rem;
+        }
+        .mb-1 {
+            margin-bottom: 0.5rem;
+        }
+        .flex-center {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- ===== 头部 ===== -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>Levain</span>
+                <span style="font-weight:400; font-size:1.2rem; -webkit-text-fill-color:var(--brown-light);">· 面包品鉴</span>
+            </div>
+            <div class="header-actions">
+                <div class="date-badge">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span id="currentDate"></span>
+                </div>
+                <div class="date-badge" style="background:var(--gold-light); color:var(--brown-dark);">
+                    <i class="fas fa-utensils"></i>
+                    <span id="breadCount">0</span> 款品鉴
+                </div>
+            </div>
+        </header>
+
+        <!-- ===== 主标题 ===== -->
+        <section class="hero">
+            <h1>
+                <i class="fas fa-bread-slice"></i>
+                品鉴·面包
+                <i class="fas fa-bread-slice"></i>
+            </h1>
+            <p>探索每一款面包的独特风味 · 记录你的感官之旅</p>
+        </section>
+
+        <!-- ===== 面包网格 ===== -->
+        <div class="bread-grid" id="breadGrid">
+            <!-- 卡片由 JavaScript 动态生成 -->
+        </div>
+
+        <!-- ===== 品鉴面板 ===== -->
+        <div class="tasting-panel" id="tastingPanel">
+            <div class="panel-header">
+                <h2 id="panelBreadName">酸面包 <small>· 品鉴笔记</small></h2>
+                <button class="close-btn" id="closePanel" title="关闭面板">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="tasting-layout">
+                <div class="tasting-visual" id="panelVisual"></div>
+                <div class="tasting-details">
+                    <!-- 评分 -->
+                    <div class="rating-group">
+                        <label><i class="fas fa-star"></i> 整体评分</label>
+                        <div class="star-rating" id="starRating">
+                            <span class="star" data-value="1">★</span>
+                            <span class="star" data-value="2">★</span>
+                            <span class="star" data-value="3">★</span>
+                            <span class="star" data-value="4">★</span>
+                            <span class="star" data-value="5">★</span>
+                        </div>
+                        <span id="ratingDisplay" style="font-weight:600; min-width:2.4rem; color:var(--gold);">0</span>
+                    </div>
+
+                    <!-- 风味标签 -->
+                    <div>
+                        <label style="font-weight:600; font-size:0.9rem; color:var(--brown-medium); display:block; margin-bottom:0.4rem;">
+                            <i class="fas fa-tag"></i> 风味特征
+                        </label>
+                        <div class="flavor-tags" id="flavorTags">
+                            <span class="tag" data-flavor="坚果">🌰 坚果</span>
+                            <span class="tag" data-flavor="果香">🍇 果香</span>
+                            <span class="tag" data-flavor="花香">🌸 花香</span>
+                            <span class="tag" data-flavor="焦糖">🍯 焦糖</span>
+                            <span class="tag" data-flavor="麦香">🌾 麦香</span>
+                            <span class="tag" data-flavor="黄油">🧈 黄油</span>
+                            <span class="tag" data-flavor="酸酵">🍋 酸酵</span>
+                            <span class="tag" data-flavor="草本">🌿 草本</span>
+                        </div>
+                    </div>
+
+                    <!-- 笔记 -->
+                    <div class="note-area">
+                        <label style="font-weight:600; font-size:0.9rem; color:var(--brown-medium); display:block; margin-bottom:0.3rem;">
+                            <i class="fas fa-pen"></i> 品鉴笔记
+                        </label>
+                        <textarea id="tastingNote" placeholder="描述面包的外皮、气孔、咀嚼感、余韵…"></textarea>
+                    </div>
+
+                    <!-- 操作按钮 -->
+                    <div class="action-row">
+                        <button class="btn btn-primary" id="saveTasting">
+                            <i class="fas fa-save"></i> 保存品鉴
+                        </button>
+                        <button class="btn btn-outline" id="resetTasting">
+                            <i class="fas fa-undo-alt"></i> 重置
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 品鉴历史 ===== -->
+        <section class="history-section" id="historySection">
+            <h3><i class="fas fa-clock"></i> 品鉴记录</h3>
+            <div class="history-list" id="historyList">
+                <!-- 动态生成 -->
+                <div class="empty-history">还没有品鉴记录，选一款面包开始吧 ✨</div>
+            </div>
+        </section>
+
+        <!-- ===== 页脚 ===== -->
+        <footer class="footer">
+            <p><i class="fas fa-heart"></i> 用心品味每一口 · 面包是生活的诗</p>
+            <p style="margin-top:0.3rem; font-size:0.75rem;">点击面包卡片开始品鉴 · 数据保存在本地</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // ============================================================
+        //  数据
+        // ============================================================
+        const breadData = [{
+            id: 1,
+            name: '酸面包',
+            nameEn: 'Sourdough',
+            desc: '天然酵种发酵，外皮酥脆，内里湿润有嚼劲，风味复杂深邃。',
+            imgClass: 'img-sourdough',
+            defaultFlavor: ['麦香', '酸酵'],
+            defaultRating: 4,
+            defaultNote: '酸香明亮，外皮焦脆，气孔均匀，回味悠长。'
+        }, {
+            id: 2,
+            name: '法棍',
+            nameEn: 'Baguette',
+            desc: '经典法式长棍，外皮金黄酥脆，内芯柔软，麦香纯粹。',
+            imgClass: 'img-baguette',
+            defaultFlavor: ['麦香', '焦糖'],
+            defaultRating: 4,
+            defaultNote: '咔嚓声悦耳，内部湿润有弹性，黄油香气突出。'
+        }, {
+            id: 3,
+            name: '黑麦面包',
+            nameEn: 'Rye Bread',
+            desc: '浓郁黑麦风味，扎实厚重，带有大地般的深沉香气。',
+            imgClass: 'img-rye',
+            defaultFlavor: ['坚果', '草本'],
+            defaultRating: 3,
+            defaultNote: '微酸，富有嚼劲，搭配烟熏三文鱼绝佳。'
+        }, {
+            id: 4,
+            name: '夏巴塔',
+            nameEn: 'Ciabatta',
+            desc: '意大利拖鞋面包，大气孔，外脆内软，橄榄油香气。',
+            imgClass: 'img-ciabatta',
+            defaultFlavor: ['果香', '黄油'],
+            defaultRating: 4,
+            defaultNote: '气孔如同云朵，外皮薄脆，适合做帕尼尼。'
+        }, {
+            id: 5,
+            name: '布里欧修',
+            nameEn: 'Brioche',
+            desc: '法式黄油面包，金黄绵软，香甜浓郁，入口即化。',
+            imgClass: 'img-brioche',
+            defaultFlavor: ['黄油', '焦糖'],
+            defaultRating: 5,
+            defaultNote: '黄油香气扑鼻，口感如云朵般柔软，甜而不腻。'
+        }, {
+            id: 6,
+            name: '佛卡夏',
+            nameEn: 'Focaccia',
+            desc: '意式扁平面包，橄榄油与迷迭香浸润，咸香可口。',
+            imgClass: 'img-focaccia',
+            defaultFlavor: ['草本', '果香'],
+            defaultRating: 4,
+            defaultNote: '表面酥脆，内部松软，迷迭香与海盐完美结合。'
+        }, {
+            id: 7,
+            name: '黑麦粗面包',
+            nameEn: 'Pumpernickel',
+            desc: '德国传统黑麦粗面包，深色浓郁，麦香醇厚。',
+            imgClass: 'img-pumpernickel',
+            defaultFlavor: ['坚果', '麦香'],
+            defaultRating: 3,
+            defaultNote: '扎实有力，微甜，适合搭配奶酪或火腿。'
+        }, {
+            id: 8,
+            name: '哈拉面包',
+            nameEn: 'Challah',
+            desc: '犹太辫子面包，柔软香甜，蛋香浓郁，节日必备。',
+            imgClass: 'img-challah',
+            defaultFlavor: ['黄油', '花香'],
+            defaultRating: 4,
+            defaultNote: '绵软拉丝，蛋奶香浓郁，撕着吃最过瘾。'
+        }];
+
+        // ============================================================
+        //  状态
+        // ============================================================
+        let currentBreadId = null;
+        let selectedFlavors = [];
+        let currentRating = 0;
+        let tastingHistory = [];
+
+        // 从 localStorage 加载历史
+        function loadHistory() {
+            const stored = localStorage.getItem('breadTastingHistory');
+            if (stored) {
+                try {
+                    tastingHistory = JSON.parse(stored);
+                } catch { tastingHistory = []; }
+            }
+        }
+
+        function saveHistory() {
+            localStorage.setItem('breadTastingHistory', JSON.stringify(tastingHistory));
+        }
+
+        // ============================================================
+        //  渲染面包网格
+        // ============================================================
+        function renderBreadGrid() {
+            const grid = document.getElementById('breadGrid');
+            grid.innerHTML = '';
+            breadData.forEach(bread => {
+                const card = document.createElement('div');
+                card.className = 'bread-card';
+                card.dataset.id = bread.id;
+
+                // 查找已有评分
+                const existing = tastingHistory.find(h => h.breadId === bread.id);
+                const rating = existing ? existing.rating : 0;
+
+                card.innerHTML = `
+                    <div class="card-img ${bread.imgClass}">
+                        <span class="badge"><i class="fas fa-utensil-spoon"></i> 点击品鉴</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>${bread.name}</h3>
+                        <div class="sub">${bread.nameEn}</div>
+                        <p class="desc">${bread.desc}</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stars">
+                            ${renderStars(rating)}
+                        </div>
+                        <span class="taste-tag"><i class="fas fa-eye"></i> 品鉴</span>
+                    </div>
+                `;
+                card.addEventListener('click', () => openTastingPanel(bread.id));
+                grid.appendChild(card);
+            });
+            updateBreadCount();
+        }
+
+        function renderStars(rating, max = 5) {
+            let html = '';
+            for (let i = 1; i <= max; i++) {
+                html += i <= rating ? '★' : '<span class="empty">★</span>';
+            }
+            return html;
+        }
+
+        function updateBreadCount() {
+            const count = tastingHistory.length;
+            document.getElementById('breadCount').textContent = count;
+        }
+
+        // ============================================================
+        //  品鉴面板
+        // ============================================================
+        function openTastingPanel(breadId) {
+            const bread = breadData.find(b => b.id === breadId);
+            if (!bread) return;
+            currentBreadId = breadId;
+
+            const panel = document.getElementById('tastingPanel');
+            panel.classList.add('active');
+
+            // 标题
+            document.getElementById('panelBreadName').innerHTML =
+                `${bread.name} <small>· 品鉴笔记</small>`;
+
+            // 视觉
+            const visual = document.getElementById('panelVisual');
+            visual.className = `tasting-visual ${bread.imgClass}`;
+            visual.style.backgroundImage = ''; // 纯色渐变
+
+            // 加载已有记录
+            const existing = tastingHistory.find(h => h.breadId === breadId);
+            if (existing) {
+                currentRating = existing.rating || 0;
+                selectedFlavors = existing.flavors || [];
+                document.getElementById('tastingNote').value = existing.note || '';
+            } else {
+                currentRating = 0;
+                selectedFlavors = [];
+                document.getElementById('tastingNote').value = '';
+            }
+
+            // 更新星标
+            updateStarUI();
+            // 更新风味标签
+            updateFlavorTagsUI();
+            // 更新评分显示
+            document.getElementById('ratingDisplay').textContent = currentRating || '0';
+
+            // 滚动到面板
+            panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function closeTastingPanel() {
+            document.getElementById('tastingPanel').classList.remove('active');
+            currentBreadId = null;
+        }
+
+        // ===== 星标交互 =====
+        function updateStarUI() {
+            const stars = document.querySelectorAll('#starRating .star');
+            stars.forEach(star => {
+                const val = parseInt(star.dataset.value);
+                star.classList.toggle('active', val <= currentRating);
+            });
+            document.getElementById('ratingDisplay').textContent = currentRating || '0';
+        }
+
+        document.getElementById('starRating').addEventListener('click', (e) => {
+            const star = e.target.closest('.star');
+            if (!star) return;
+            const val = parseInt(star.dataset.value);
+            currentRating = (currentRating === val) ? 0 : val;
+            updateStarUI();
+        });
+
+        // ===== 风味标签交互 =====
+        function updateFlavorTagsUI() {
+            const tags = document.querySelectorAll('#flavorTags .tag');
+            tags.forEach(tag => {
+                const flavor = tag.dataset.flavor;
+                tag.classList.toggle('selected', selectedFlavors.includes(flavor));
+            });
+        }
+
+        document.getElementById('flavorTags').addEventListener('click', (e) => {
+            const tag = e.target.closest('.tag');
+            if (!tag) return;
+            const flavor = tag.dataset.flavor;
+            const idx = selectedFlavors.indexOf(flavor);
+            if (idx > -1) {
+                selectedFlavors.splice(idx, 1);
+            } else {
+                selectedFlavors.push(flavor);
+            }
+            updateFlavorTagsUI();
+        });
+
+        // ===== 保存品鉴 =====
+        document.getElementById('saveTasting').addEventListener('click', () => {
+            if (currentBreadId === null) {
+                alert('请先选择一款面包');
+                return;
+            }
+            const bread = breadData.find(b => b.id === currentBreadId);
+            if (!bread) return;
+
+            const note = document.getElementById('tastingNote').value.trim();
+            if (currentRating === 0) {
+                alert('请先给面包评分 ⭐');
+                return;
+            }
+
+            // 查找是否已有记录
+            const existingIdx = tastingHistory.findIndex(h => h.breadId === currentBreadId);
+            const record = {
+                breadId: bread.id,
+                breadName: bread.name,
+                rating: currentRating,
+                flavors: [...selectedFlavors],
+                note: note || '（未记录笔记）',
+                date: new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'short', day: 'numeric' })
+            };
+
+            if (existingIdx > -1) {
+                tastingHistory[existingIdx] = record;
+            } else {
+                tastingHistory.push(record);
+            }
+
+            saveHistory();
+            renderBreadGrid();
+            renderHistory();
+            updateBreadCount();
+
+            // 视觉反馈
+            const btn = document.getElementById('saveTasting');
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> 已保存';
+            btn.style.background = '#2d6a4f';
+            setTimeout(() => {
+                btn.innerHTML = orig;
+                btn.style.background = '';
+            }, 1200);
+        });
+
+        // ===== 重置 =====
+        document.getElementById('resetTasting').addEventListener('click', () => {
+            if (currentBreadId === null) return;
+            currentRating = 0;
+            selectedFlavors = [];
+            document.getElementById('tastingNote').value = '';
+            updateStarUI();
+            updateFlavorTagsUI();
+            document.getElementById('ratingDisplay').textContent = '0';
+        });
+
+        // ===== 关闭面板 =====
+        document.getElementById('closePanel').addEventListener('click', closeTastingPanel);
+
+        // ============================================================
+        //  渲染历史
+        // ============================================================
+        function renderHistory() {
+            const container = document.getElementById('historyList');
+            if (tastingHistory.length === 0) {
+                container.innerHTML = '<div class="empty-history">还没有品鉴记录，选一款面包开始吧 ✨</div>';
+                return;
+            }
+            // 按时间倒序 (最近的在前面)
+            const sorted = [...tastingHistory].reverse();
+            container.innerHTML = '';
+            sorted.forEach(record => {
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = `
+                    <div class="h-name">${record.breadName}</div>
+                    <div class="h-meta">
+                        <span class="stars-sm">${renderStars(record.rating)}</span>
+                        <span>${record.flavors && record.flavors.length ? record.flavors.join(' · ') : '无标签'}</span>
+                        <span>${record.date || ''}</span>
+                    </div>
+                    <div class="h-note">“${record.note || '（无笔记）'}”</div>
+                `;
+                // 点击历史项重新打开
+                div.style.cursor = 'pointer';
+                div.addEventListener('click', () => {
+                    const bread = breadData.find(b => b.id === record.breadId);
+                    if (bread) openTastingPanel(record.breadId);
+                });
+                container.appendChild(div);
+            });
+        }
+
+        // ============================================================
+        //  工具: 显示当前日期
+        // ============================================================
+        function setCurrentDate() {
+            const now = new Date();
+            const opts = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('zh-CN', opts);
+        }
+
+        // ============================================================
+        //  初始化
+        // ============================================================
+        function init() {
+            loadHistory();
+            renderBreadGrid();
+            renderHistory();
+            setCurrentDate();
+            updateBreadCount();
+        }
+
+        init();
+    </script>
+
+</body>
+</html>
